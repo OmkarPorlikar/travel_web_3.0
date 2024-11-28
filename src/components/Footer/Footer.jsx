@@ -29,13 +29,13 @@ const Footer = () => {
             {/* Logo */}
             <motion.h2
               whileHover={{ scale: 1.05 }}
-              className="text-4xl font-bold cursor-pointer text-center md:text-left h-[27%] w-[28%]  mb-[1.2rem]"
+              className="text-4xl font-bold cursor-pointer text-center md:text-left h-[32%] w-[33%] md:h-[27%] md:w-[28%]  my-[1.2rem]"
             >
 <img src="/assest/logo.png" alt="logo" className='' />
             </motion.h2>
 
             {/* Social Icons */}
-            <div className="flex space-x-4 justify-center md:justify-start mt-1rem">
+            <div className="flex space-x-4 justify-center md:justify-start m-1rem">
               {socialLinks.map((social, idx) => (
                 <motion.a
                   key={idx}
