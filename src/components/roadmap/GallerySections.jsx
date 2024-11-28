@@ -80,7 +80,7 @@ const FloatingCards = ({ images, onImageClick }) => (
     animate={{ opacity: 1 }}
     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[2px] p-6"
   >
-    {images.map((image, index) => (
+    {images.slice(0,8).map((image, index) => (
       <motion.div
         key={index}
         initial={{ y: 50, opacity: 0 }}
