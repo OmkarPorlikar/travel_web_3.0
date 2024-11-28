@@ -103,7 +103,7 @@ const NatureCard = ({ animationStyle = 3 }) => {
       </motion.h1>
 
       <motion.div 
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 lg:gap-6 md:gap-y-20 justify-items-center"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 lg:gap-6 gap-4 md:gap-y-20 justify-items-center"
         variants={selectedAnimation.container}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
