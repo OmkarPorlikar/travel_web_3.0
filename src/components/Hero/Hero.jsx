@@ -27,12 +27,11 @@ const Hero = () => {
     },
   ];
 
-  // Auto-play carousel effect
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % activities.length);
       setSelectedActivity((prevSlide) => (prevSlide + 1) % activities.length);
-    }, 4000); // Change slide every 4 seconds
+    }, 4000);
 
     return () => clearInterval(timer);
   }, []);
@@ -74,14 +73,14 @@ const Hero = () => {
                     <motion.h2
                       initial={{ x: -50, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
-                      className="font-bold font-borel text-4xl"
+                      className="font-bold font-borel text-4xl lg:text-3xl md:text-2xl sm:text-xl"
                     >
                       {activity.title}
                     </motion.h2>
                     <motion.p
                       initial={{ x: 50, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
-                      className="mt-4 text-lg font-poppins font-thin"
+                      className="mt-4 text-lg lg:text-base md:text-sm sm:text-xs"
                     >
                       {activity.description}
                     </motion.p>
@@ -94,28 +93,28 @@ const Hero = () => {
       </div>
 
       {/* Activities Tab */}
-      <div className="absolute right-0 bottom-0 m-8">
-        <div className="bg-white/20 backdrop-blur-md p-6 rounded-l-2xl shadow-lg max-w-xs">
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold text-white mb-2">
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-8 sm:mb-4 w-auto">
+        <div className="bg-white/20 backdrop-blur-md p-6 lg:p-4 sm:p-3 rounded-lg shadow-lg max-w-xs sm:max-w-full">
+          <div className="mb-4 text-center">
+            <h2 className="text-lg lg:text-base sm:text-sm font-semibold text-white mb-2">
               What Excites You Most?
             </h2>
-            <div className="w-12 h-0.5 bg-white"></div>
+            <div className="w-12 h-0.5 bg-white mx-auto"></div>
           </div>
-          <div>
+          <div className="space-y-2">
             {activities.map((activity, index) => (
               <div
                 key={activity.id}
-                className={`flex items-center gap-2 p-4 px-8 rounded-lg cursor-pointer transition-all duration-300 ${
+                className={`flex items-center gap-2 p-2 md:p-4 lg:p-3 sm:p-2 px-8 lg:px-6 sm:px-4 rounded-lg cursor-pointer transition-all duration-300 ${
                   selectedActivity === index ? "bg-white/10" : "bg-transparent"
                 }`}
                 onClick={() => handleActivityClick(index)}
               >
                 <div className="relative">
-                  <span className="absolute -left-6 -top-1 text-sm text-white/70">
+                  <span className="absolute -left-6 -top-1 text-sm sm:text-xs text-white/70">
                     {activity.id}
                   </span>
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                  <div className="w-12 h-12 sm:w-10 sm:h-10 rounded-full overflow-hidden">
                     <img
                       src={activity.imageUrl}
                       alt={activity.title}
@@ -124,10 +123,12 @@ const Hero = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-base text-white">
+                  <h3 className="font-semibold text-base sm:text-sm text-white">
                     {activity.title}
                   </h3>
-                  <p className="text-white/80 text-xs">{activity.description}</p>
+                  <p className="text-white/80 text-xs sm:text-[10px]">
+                    {activity.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -136,7 +137,7 @@ const Hero = () => {
       </div>
 
       {/* Carousel Indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {activities.map((_, index) => (
           <div
             key={index}
