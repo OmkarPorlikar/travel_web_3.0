@@ -1,89 +1,158 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedActivity, setSelectedActivity] = useState(0);
 
+  const activities = [
+    {
+      id: "01",
+      title: "Trekking",
+      description: "Climbing the tallest mountain in Europe!",
+      imageUrl: "/assest/sunset_mountains.jpg",
+    },
+    {
+      id: "02",
+      title: "Rafting",
+      description: "Let's meet the wildest river and raft on these!",
+      imageUrl: "/assest/buddha.jpg",
+    },
+    {
+      id: "03",
+      title: "Windsurfing",
+      description: "Didn't see the tallest wave on a rainy day?",
+      imageUrl: "/assest/people.jpeg",
+    },
+  ];
+
+  // Auto-play carousel effect
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
-    };
+    const timer = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % activities.length);
+      setSelectedActivity((prevSlide) => (prevSlide + 1) % activities.length);
+    }, 4000); // Change slide every 4 seconds
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => clearInterval(timer);
   }, []);
 
-  const navItems = [  'Home' ,  'Itinerary', 'Testimonials' , 'Contact'];
-// console.log('Inside header')
+  const handleActivityClick = (index) => {
+    setSelectedActivity(index);
+    setCurrentSlide(index);
+  };
+
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#FFF5EE] shadow-lg' : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo with Home Link */}
-          <a
-            href="/"
-            className={`text-2xl font-bold hover:opacity-75 transition-opacity duration-150 ${
-              scrolled ? 'text-black' : 'text-white'
-            }`}
-          >
-            <img src="/assest/logo.png" alt="logo" className='h-[25%] w-[25%]' />
-          </a>
+    <div className="hero-container relative min-h-screen w-full overflow-hidden">
+      {/* Hero Section */}
+      <div className="hero-background-wrapper relative h-screen">
+        <AnimatePresence mode="wait">
+          {activities.map((activity, index) => (
+            <div
+              key={activity.id}
+              className={`hero-slide absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {/* Background Image */}
+              <div className="hero-image-wrapper absolute inset-0">
+                <img
+                  src={activity.imageUrl}
+                  alt={activity.title}
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient Overlay */}
+                <div className="hero-gradient absolute inset-0 bg-gradient-to-r from-gray-800 to-transparent"></div>
+              </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={`/${(item === 'Home')? '/': item.toLowerCase()}`}
-                className={`hover:opacity-75 transition-opacity duration-150 ${
-                  scrolled ? 'text-black' : 'text-white'
-                }`}
-              >
-                {item}
-              </a>
-            ))}
-         
-          </nav>
+              {/* Text Content */}
+              <div
+  className="hero-content absolute top-1/2 left-4 sm:left-8 md:left-16 transform -translate-y-1/2 text-white max-w-md z-10
+             xs:-translate-y-[135%]"
+>
 
-          {/* Mobile Menu Button */}
-          <button
-            className={`md:hidden p-2 hover:opacity-75 ${
-              scrolled ? 'text-black' : 'text-white'
-            }`}
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 px-2 bg-white shadow-lg">
-            <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                console.log(item , "item"),
-                <a
-                  key={item}
-                  href={`${(item === 'Home')? '/': item.toLowerCase()}`}
-                  className="text-black hover:opacity-75 transition-opacity duration-150"
-                  onClick={() => setIsOpen(false)}
+                <motion.h2
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  className="hero-title font-bold font-borel text-3xl sm:text-4xl mb-4"
                 >
-                  {item}
-                </a>
-              ))}
-            
-            </nav>
-          </div>
-        )}
+                  {activity.title}
+                </motion.h2>
+                <motion.p
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  className="hero-description text-base sm:text-lg font-poppins font-thin"
+                >
+                  {activity.description}
+                </motion.p>
+              </div>
+            </div>
+          ))}
+        </AnimatePresence>
       </div>
-    </header>
+
+      {/* Activities Tab */}
+      <div className="hero-activities-wrapper absolute bottom-0 left-0 lg:left-[70%] right-0 flex justify-center px-4 pb-8 z-20
+      ">
+        <div className="hero-activities-container bg-white/20 backdrop-blur-md rounded-2xl shadow-lg w-full max-w-xs">
+          <div className="hero-activities-header p-4 relative">
+            <h2 className="text-lg font-semibold text-white mb-2">
+              What Excites You Most?
+            </h2>
+            <div className="w-12 h-0.5 bg-white"></div>
+            {/* Hidden on mobile, shows ID outside the div */}
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/70 text-sm">
+              <span className="hidden sm:inline">
+                {activities[selectedActivity].id}
+              </span>
+            </div>
+          </div>
+          <div className="hero-activities-list">
+            {activities.map((activity, index) => (
+              <div
+                key={activity.id}
+                className={`hero-activity-item flex items-center p-4 cursor-pointer transition-all duration-300 ${
+                  selectedActivity === index ? "bg-white/10" : "bg-transparent"
+                }`}
+                onClick={() => handleActivityClick(index)}
+              >
+                <div className="hero-activity-icon relative mr-4">
+                  <span className="sm:hidden text-sm text-white/70 absolute -left-[0.8rem] -top-[0.50rem]">
+                    {activity.id}
+                  </span>
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <img
+                      src={activity.imageUrl}
+                      alt={activity.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="hero-activity-text">
+                  <h3 className="font-semibold text-base text-white">
+                    {activity.title}
+                  </h3>
+                  <p className="text-white/80 text-xs">{activity.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Carousel Indicators */}
+      <div className="hero-indicators absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+        {activities.map((_, index) => (
+          <div
+            key={index}
+            className={`h-2 w-2 rounded-full transition-all duration-300 ${
+              index === currentSlide ? "bg-white w-6" : "bg-white/50"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 
-export default Header;
+export default Hero;
