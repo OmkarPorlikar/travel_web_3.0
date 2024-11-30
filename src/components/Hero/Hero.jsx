@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -27,11 +26,12 @@ const Hero = () => {
     },
   ];
 
+  // Auto-play carousel effect
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % activities.length);
       setSelectedActivity((prevSlide) => (prevSlide + 1) % activities.length);
-    }, 4000);
+    }, 4000); // Change slide every 4 seconds
 
     return () => clearInterval(timer);
   }, []);
@@ -42,79 +42,85 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden" id="hero">
+    <div className="hero-container relative min-h-screen w-full overflow-hidden">
       {/* Hero Section */}
-      <div className="relative h-screen flex items-center justify-center">
+      <div className="hero-background-wrapper relative h-screen">
         <AnimatePresence mode="wait">
-          <motion.div
-            key="design4"
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            className="relative h-full w-full bg-gray-800"
-          >
-            {activities.map((activity, index) => (
-              <div
-                key={activity.id}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                {/* Background Image */}
+          {activities.map((activity, index) => (
+            <div
+              key={activity.id}
+              className={`hero-slide absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {/* Background Image */}
+              <div className="hero-image-wrapper absolute inset-0">
                 <img
                   src={activity.imageUrl}
                   alt={activity.title}
                   className="w-full h-full object-cover"
                 />
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-transparent">
-                  {/* Text Content */}
-                  <div className="absolute top-1/2 transform -translate-y-1/2 left-16 text-white">
-                    <motion.h2
-                      initial={{ x: -50, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      className="font-bold font-borel text-4xl lg:text-3xl md:text-2xl sm:text-xl"
-                    >
-                      {activity.title}
-                    </motion.h2>
-                    <motion.p
-                      initial={{ x: 50, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      className="mt-4 text-lg lg:text-base md:text-sm sm:text-xs"
-                    >
-                      {activity.description}
-                    </motion.p>
-                  </div>
-                </div>
+                <div className="hero-gradient absolute inset-0 bg-gradient-to-r from-gray-800 to-transparent"></div>
               </div>
-            ))}
-          </motion.div>
+
+              {/* Text Content */}
+              <div
+  className="hero-content absolute top-1/2 left-4 sm:left-8 md:left-16 transform -translate-y-1/2 text-white max-w-md z-10
+             xs:-translate-y-[135%]"
+>
+
+
+                <motion.h2
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  className="hero-title font-bold font-borel text-3xl sm:text-4xl mb-4"
+                >
+                  {activity.title}
+                </motion.h2>
+                <motion.p
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  className="hero-description text-base sm:text-lg font-poppins font-thin"
+                >
+                  {activity.description}
+                </motion.p>
+              </div>
+            </div>
+          ))}
         </AnimatePresence>
       </div>
 
       {/* Activities Tab */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-8 sm:mb-4 w-auto">
-        <div className="bg-white/20 backdrop-blur-md p-6 lg:p-4 sm:p-3 rounded-lg shadow-lg max-w-xs sm:max-w-full">
-          <div className="mb-4 text-center">
-            <h2 className="text-lg lg:text-base sm:text-sm font-semibold text-white mb-2">
+      <div className="hero-activities-wrapper absolute bottom-0 left-0 lg:left-[70%] right-0 flex justify-center px-4 pb-8 z-20
+      ">
+        <div className="hero-activities-container bg-white/20 backdrop-blur-md rounded-2xl shadow-lg w-full max-w-xs">
+          <div className="hero-activities-header p-4 relative">
+            <h2 className="text-lg font-semibold text-white mb-2">
               What Excites You Most?
             </h2>
-            <div className="w-12 h-0.5 bg-white mx-auto"></div>
+            <div className="w-12 h-0.5 bg-white"></div>
+            {/* Hidden on mobile, shows ID outside the div */}
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/70 text-sm">
+              <span className="hidden sm:inline">
+                {activities[selectedActivity].id}
+              </span>
+            </div>
           </div>
-          <div className="space-y-2">
+          <div className="hero-activities-list">
             {activities.map((activity, index) => (
               <div
                 key={activity.id}
-                className={`flex items-center gap-2 p-2 md:p-4 lg:p-3 sm:p-2 px-8 lg:px-6 sm:px-4 rounded-lg cursor-pointer transition-all duration-300 ${
+                className={`hero-activity-item flex items-center p-4 cursor-pointer transition-all duration-300 ${
                   selectedActivity === index ? "bg-white/10" : "bg-transparent"
                 }`}
                 onClick={() => handleActivityClick(index)}
               >
-                <div className="relative">
-                  <span className="absolute -left-6 -top-1 text-sm sm:text-xs text-white/70">
+                <div className="hero-activity-icon relative mr-4">
+                  <span className="sm:hidden text-sm text-white/70 absolute -left-[0.8rem] -top-[0.50rem]">
                     {activity.id}
                   </span>
-                  <div className="w-12 h-12 sm:w-10 sm:h-10 rounded-full overflow-hidden">
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
                     <img
                       src={activity.imageUrl}
                       alt={activity.title}
@@ -122,13 +128,11 @@ const Hero = () => {
                     />
                   </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-base sm:text-sm text-white">
+                <div className="hero-activity-text">
+                  <h3 className="font-semibold text-base text-white">
                     {activity.title}
                   </h3>
-                  <p className="text-white/80 text-xs sm:text-[10px]">
-                    {activity.description}
-                  </p>
+                  <p className="text-white/80 text-xs">{activity.description}</p>
                 </div>
               </div>
             ))}
@@ -137,7 +141,7 @@ const Hero = () => {
       </div>
 
       {/* Carousel Indicators */}
-      <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="hero-indicators absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
         {activities.map((_, index) => (
           <div
             key={index}
