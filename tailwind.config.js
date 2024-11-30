@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         borel: ['"Borel"', 'cursive' , '"Poppins"'], // Define the font family
       },
+      screens: {
+        'xs': '360px', // Add custom breakpoint for 360px
+      },
     },
   },
   plugins: [
