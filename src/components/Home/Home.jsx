@@ -15,7 +15,9 @@ import Banner from '../Banner/Banner';
 import ChooseUs from '../choose/ChooseUs';
 import Header1 from '../header1/Header1';
 import TripCards from '../../pages/roadmap_page/itinerary_page';
-  
+import AboutUsPage from '../../pages/AboutUsPage/AboutUsPage';
+import ContactForm from '../ContactForm/ContactForm';  
+import ContactFormPage from '../../pages/ContactFormPage/ContactFormPage';
 function Home() {
   return (
     <Router>
@@ -28,11 +30,13 @@ function Home() {
               <Header/>
               <Hero />
               <NatureCard />
+              <AboutUsPage/>
               <Services />
               <Itinerary />
               <Banner/>
               <ChooseUs/>
               <Testimonial />
+              <ContactForm/>
             </div>
           }
         />
@@ -89,9 +93,15 @@ function Home() {
           }    
         />
 
-      
-
-        {/* Add other routes as needed */}
+<Route 
+          path="/contact" 
+          element={
+            <>
+              <Header1 />
+<ContactFormPage/>
+          </>
+          }    
+        />
       </Routes>
 <Footer/>
     </Router>
